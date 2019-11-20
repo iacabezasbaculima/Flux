@@ -46,7 +46,7 @@ namespace Flux.src.Platform.OpenGL
 			shader.SetMatrix4("view", view);
 			shader.SetMatrix4("projection", projection);
 			//TODO: GLDrawIndexed are still visible here! Ask for help
-
+			
 			GL.DrawElements(PrimitiveType.Triangles, vao.GetIndexBuffer().GetCount(), DrawElementsType.UnsignedInt, 0);
 		}
 	}

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flux.src.Flux.Renderer
@@ -43,27 +42,6 @@ namespace Flux.src.Flux.Renderer
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 		}
 
-		//public int LoadImage(string path)
-		//{
-		//	try
-		//	{
-		//		Bitmap bmp = new Bitmap(path);
-		//		return CreateTexture(path);
-		//	}
-		//	catch (FileNotFoundException e)
-		//	{
-		//		Console.WriteLine(e);
-		//		return -1;
-		//	}
-		//}
-
-		//protected virtual void Dispose(bool disposing)
-		//{
-		//	if(!disposedValue)
-		//	{
-		//		disposedValue = true;
-		//	}
-		//}
 		public void Dispose()
 		{
 			//Dispose(true);

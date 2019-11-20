@@ -11,7 +11,7 @@ namespace Flux.src.Flux.Renderer
 
 		float pitch;
 		float yaw = -MathHelper.PiOver2;
-		float fov = MathHelper.PiOver2;
+		float fov = MathHelper.DegreesToRadians(45f);
 		
 		public Camera(Vector3 position, float aspectRatio)
 		{
@@ -57,11 +57,11 @@ namespace Flux.src.Flux.Renderer
 		}
 		public Matrix4 GetViewMatrix()
 		{
-			return Matrix4.LookAt(Position, Position + front, up);
+			return Matrix4.Identity * Matrix4.LookAt(Position, Position + front, up);
 		}
 		public Matrix4 GetProjectionMatrix()
 		{
-			return Matrix4.CreatePerspectiveFieldOfView(fov, AspectRatio, 0.01f, 1000.0f);
+			return Matrix4.Identity * Matrix4.CreatePerspectiveFieldOfView(fov, AspectRatio, 0.01f, 1000.0f);
 		}
 		public void UpdateVectors()
 		{

@@ -36,6 +36,11 @@ namespace Flux.src.Flux.Renderer
 			var factory = new ShapeFactory(ShapeFactory.FactoryType.Pyramid);
 			return factory.Create();
 		}
+		public static IShape CreateTriangle()
+		{
+			var factory = new ShapeFactory(ShapeFactory.FactoryType.Triangle);
+			return factory.Create();
+		}
 		public struct SceneData
 		{
 			public OpenTK.Matrix4 ViewMatrix { get; set; }
