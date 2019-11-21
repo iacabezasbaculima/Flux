@@ -8,7 +8,7 @@ namespace Flux.src.Flux.Renderer
 {
 	public class BufferLayout : IEnumerable<BufferElement>
 	{
-		private List<BufferElement> elements;
+		private List<BufferElement> elements = new List<BufferElement>();
 		private int stride;
 		public BufferLayout ()
 		{
@@ -18,6 +18,7 @@ namespace Flux.src.Flux.Renderer
 		}
 		public int GetStride() { return stride; }
 		public void CalculateOffsetsAndStride()
+
 		{
 			int offset = 0;
 			stride = 0;

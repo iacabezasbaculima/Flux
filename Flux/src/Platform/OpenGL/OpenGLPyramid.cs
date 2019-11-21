@@ -48,16 +48,9 @@ namespace Flux.src.Platform.OpenGL
 			OpenGLIndexBuffer ibo = new OpenGLIndexBuffer(indices, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
 			vao.SetIndexBuffer(ibo);
 		}
-		public void Draw(Shader shader, Matrix4 model, Matrix4 view, Matrix4 projection)
+		public void Draw()
 		{
 			vao.Bind();
-
-			shader.Use();
-			shader.SetMatrix4("model", model);
-			shader.SetMatrix4("view", view);
-			shader.SetMatrix4("projection", projection);
-			//TODO: GLDrawIndexed are still visible here! Ask for help
-
 			GL.DrawElements(PrimitiveType.Triangles, vao.GetIndexBuffer().GetCount(), DrawElementsType.UnsignedInt, 0);
 		}
 	}

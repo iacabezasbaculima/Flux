@@ -7,6 +7,10 @@ namespace Flux.src.Flux.Renderer
 		{
 			GLEnableDepthTest();
 		}
+		public static void EnableMSAA()
+		{
+			GLEnableMSAA();
+		}
 		public static void SetClearColor(OpenTK.Graphics.Color4 color)
 		{
 			GLSetClearColor(color);

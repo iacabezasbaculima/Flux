@@ -14,6 +14,13 @@ namespace Flux.src.Platform.OpenGL
 		{
 			GL.Enable(EnableCap.DepthTest);
 		}
+		protected static void GLEnableMSAA()
+		{
+			GL.GetInteger(GetPName.SampleBuffers, out int buffers);
+			//Console.WriteLine("sample buffers: " + buffers);
+			if (buffers == 1)
+				GL.Enable(EnableCap.Multisample);
+		}
 		protected static void GLClear()
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

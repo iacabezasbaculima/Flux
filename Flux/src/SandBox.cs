@@ -21,10 +21,7 @@ namespace Flux.src
 		FL.Shader lampShader;
 		static 
 		// This is the position of both the light and the place the lamp cube will be drawn in the scene
-		private readonly Vector3 _lightPos = new Vector3(2f, 1.5f, 0.0f);
-		FL.VertexArray lamp;
-
-		FL.VertexArray Cube;
+		private readonly Vector3 _lightPos = new Vector3(2f, 0.0f, 0.0f);
 
 		#region CAMERA 
 		FL.Camera camera;
@@ -130,11 +127,13 @@ namespace Flux.src
 			-0.5f,  0.5f, -0.5f 
 		};
 		#endregion
-		public SandBox(int width, int height) : base(width, height) { }
+
+		public SandBox(int width, int height, string title) : base(width, height, new GraphicsMode(32, 24, 0, 8), title) { }
 		protected override void OnLoad(EventArgs e)
 		{
 			FL.RenderCommand.SetClearColor(Color4.Black);
 			FL.RenderCommand.EnableDepthTest();
+			FL.RenderCommand.EnableMSAA();
 			FL.RenderCommand.Clear();
 
 			simple = new FL.Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
@@ -160,30 +159,6 @@ namespace Flux.src
 			pyramid = FL.Renderer.CreatePyramid();
 			triangle = FL.Renderer.CreateTriangle();
 
-			// LAMP
-			lamp = new FL.VertexArray();
-			FL.Buffer vbo1 = FL.BufferFactory.CreateBuffer(_vertices, _vertices.Length, BufferUsageHint.StaticDraw);
-			FL.BufferLayout lampBL = new FL.BufferLayout
-			{
-				{FL.ShaderDataType.Float3, "position" }
-			};
-			lampBL.CalculateOffsetsAndStride();
-			vbo1.SetLayout(lampBL);
-			lamp.AddVertexBuffer((Platform.OpenGL.OpenGLVertexBuffer)vbo1);
-
-			// MODEL CUBE
-			Cube = new FL.VertexArray();
-			FL.Buffer vbo2 = FL.BufferFactory.CreateBuffer(vertices, vertices.Length, BufferUsageHint.StaticDraw);
-			FL.BufferLayout cbl = new FL.BufferLayout
-			{
-				{FL.ShaderDataType.Float3, "position"},
-				{FL.ShaderDataType.Float3, "normal" }
-			};
-			cbl.CalculateOffsetsAndStride();
-			vbo2.SetLayout(cbl);
-			Cube.AddVertexBuffer((Platform.OpenGL.OpenGLVertexBuffer)vbo2);
-			
-
 			CursorVisible = false;
 
 			base.OnLoad(e);
@@ -192,7 +167,6 @@ namespace Flux.src
 		protected override void OnRenderFrame(FrameEventArgs e)
 		{
 			t += 3.5 + e.Time;
-			FL.RenderCommand.EnableDepthTest();
 			FL.RenderCommand.Clear();
 			FL.Renderer.BeginScene(camera);
 			{
@@ -217,27 +191,46 @@ namespace Flux.src
 				lightShader.SetMatrix4("view", camera.GetViewMatrix());
 				lightShader.SetMatrix4("projection", camera.GetProjectionMatrix());
 				
-				lightShader.SetVector3("objectColor", new Vector3(1.0f, 0.5f, 0.31f));
-				lightShader.SetVector3("lightColor", new Vector3(1.0f, 1.0f, 1.0f));
-				lightShader.SetVector3("lightPos", _lightPos);
 				lightShader.SetVector3("viewPos", camera.Position);
-				// Draw model cube
-				Cube.Bind();
-				GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
+
+				// Here we set the material values of the cube, the material struct is just a container so to access
+				// the underlying values we simply type "material.value" to get the location of the uniform
+				lightShader.SetVector3("material.ambient", new Vector3(1.0f, 0.5f, 0.31f));
+				lightShader.SetVector3("material.diffuse", new Vector3(1.0f, 0.5f, 0.31f));
+				lightShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
+				lightShader.SetFloat("material.shininess", 32.0f);
+
+				// This is where we change the lights color over time using the sin function
+				Vector3 lightColor;
+				float time = DateTime.Now.Second + DateTime.Now.Millisecond / 1000f;
+				Console.WriteLine(time);
+				lightColor.X = (float)Math.Sin(time * 2.0f);
+				lightColor.Y = (float)Math.Sin(time * 0.7f);
+				lightColor.Z = (float)Math.Sin(time * 1.3f);
+
+				// The ambient light is less intensive than the diffuse light in order to make it less dominant
+				Vector3 ambientColor = lightColor * new Vector3(0.2f);
+				Vector3 diffuseColor = lightColor * new Vector3(0.5f);
+
+				lightShader.SetVector3("light.position", _lightPos);
+				lightShader.SetVector3("light.ambient", ambientColor);
+				lightShader.SetVector3("light.diffuse", diffuseColor);
+				lightShader.SetVector3("light.specular", new Vector3(1.0f, 1.0f, 1.0f));
+
+				cube.Draw();
 
 				// Draw lamp
 				lampShader.Use();
 
 				Matrix4 lampMatrix = Matrix4.Identity;
-				lampMatrix *= Matrix4.CreateScale(0.2f); // We scale the lamp cube down a bit to make it less dominant
+				lampMatrix *= Matrix4.CreateScale(0.2f); 
 				lampMatrix *= Matrix4.CreateTranslation(_lightPos);
 
 				lampShader.SetMatrix4("model", lampMatrix);
 				lampShader.SetMatrix4("view", camera.GetViewMatrix());
 				lampShader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
-				lamp.Bind();
-				GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
+				cube.Draw();
 
 			}
 			FL.Renderer.EndScene();

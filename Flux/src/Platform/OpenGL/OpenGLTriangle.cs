@@ -33,15 +33,9 @@ namespace Flux.src.Platform.OpenGL
 			vbo.SetLayout(bl);
 			vao.AddVertexBuffer(vbo);
 		}
-		public void Draw(Shader shader, Matrix4 model, Matrix4 view, Matrix4 projection)
+		public void Draw()
 		{
 			vao.Bind();
-
-			shader.Use();
-			shader.SetMatrix4("model", model);
-			shader.SetMatrix4("view", view);
-			shader.SetMatrix4("projection", projection);
-			
 			GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 		}
 	}

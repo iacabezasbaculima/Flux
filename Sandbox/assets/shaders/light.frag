@@ -1,45 +1,53 @@
 #version 330 core
+//The material is a collection of some values that we talked about in the last tutorial,
+//some crucial elements to the phong model.
+struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+
+    float shininess; //Shininess is the power the specular light is raised to
+};
+//The light contains all the values from the light source, how the ambient diffuse and specular values are from the light source.
+//This is technically what we were using in the last episode as we were only applying the phong model directly to the light.
+struct Light {
+    vec3 position;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+//We create the light and the material struct as uniforms.
+uniform Light light;
+uniform Material material;
+//We still need the view position.
+uniform vec3 viewPos;
+
 out vec4 FragColor;
 
-//In order to calculate some basic lighting we need a few things per model basis, and a few things per fragment basis:
-uniform vec3 objectColor; //The color of the object.
-uniform vec3 lightColor; //The color of the light.
-uniform vec3 lightPos; //The position of the light.
-uniform vec3 viewPos; //The position of the view and/or of the player.
-
-in vec3 Normal; //The normal of the fragment is calculated in the vertex shader.
-in vec3 FragPos; //The fragment position.
+in vec3 Normal;
+in vec3 FragPos;
 
 void main()
 {
-    //The ambient color is the color where the light does not directly hit the object.
-    //You can think of it as an underlying tone throughout the object. Or the light coming from the scene/the sky (not the sun).
-    float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * lightColor;
+    //ambient
+    vec3 ambient = light.ambient * material.ambient; //Remember to use the material here.
 
-    //We calculate the light direction, and make sure the normal is normalized.
+    //diffuse 
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos); //Note: The light is pointing from the light to the fragment
+    vec3 lightDir = normalize(light.position - FragPos);
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = light.diffuse * (diff * material.diffuse); //Remember to use the material here.
 
-    //The diffuse part of the phong model.
-    //This is the part of the light that gives the most, it is the color of the object where it is hit by light.
-    float diff = max(dot(norm, lightDir), 0.0); //We make sure the value is non negative with the max function.
-    vec3 diffuse = diff * lightColor;
-
-
-    //The specular light is the light that shines from the object, like light hitting metal.
-    //The calculations are explained much more detailed in the web version of the tutorials.
-    float specularStrength = 0.5;
+    //specular
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); //The 32 is the shininess of the material.
-    vec3 specular = specularStrength * spec * lightColor;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.specular * (spec * material.specular); //Remember to use the material here.
 
-    //At last we add all the light components together and multiply with the color of the object. Then we set the color
-    //and makes sure the alpha value is 1
-    vec3 result = (ambient + diffuse + specular) * objectColor;
+    //Now the result sum has changed a bit, since we now set the objects color in each element, we now dont have to
+    //multiply the light with the object here, instead we do it for each element seperatly. This allows much better control
+    //over how each element is applied to different objects.
+    vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
-    
-    //Note we still use the light color * object color from the last tutorial.
-    //This time the light values are in the phong model (ambient, diffuse and specular)
 }

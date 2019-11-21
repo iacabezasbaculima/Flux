@@ -1,7 +1,7 @@
 ﻿
 namespace Flux.src.Flux.Renderer
 {
-	public class Renderer : RenderCommand
+	public class Renderer
 	{
 		static SceneData sceneData;
 		public static void BeginScene(Camera cam) 
@@ -10,17 +10,16 @@ namespace Flux.src.Flux.Renderer
 			sceneData.ProjectionMatrix = cam.GetProjectionMatrix();
 		}
 		public static void EndScene() { }
-		public static void Submit(Shader shader, Platform.OpenGL.OpenGLVertexArray vertexArray, OpenTK.Matrix4 transform)
-		{
-			shader.Use();
-			shader.SetMatrix4("model", transform);
-			shader.SetMatrix4("view", sceneData.ViewMatrix);
-			shader.SetMatrix4("projection", sceneData.ProjectionMatrix);
-			//TODO: GLDrawIndexed are still visible here! Ask for help
+		//public static void Submit(Shader shader, Platform.OpenGL.OpenGLVertexArray vertexArray, OpenTK.Matrix4 transform)
+		//{
+		//	shader.Use();
+		//	shader.SetMatrix4("model", transform);
+		//	shader.SetMatrix4("view", sceneData.ViewMatrix);
+		//	shader.SetMatrix4("projection", sceneData.ProjectionMatrix);
 
-			vertexArray.Bind();
-			DrawIndexed(vertexArray);
-		}
+		//	vertexArray.Bind();
+		//	DrawIndexed(vertexArray);
+		//}
 		public static IShape CreateCube()
 		{
 			var factory = new ShapeFactory(ShapeFactory.FactoryType.Cube);
