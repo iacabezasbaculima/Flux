@@ -21,6 +21,10 @@ namespace Flux.src.Platform.OpenGL
 			if (buffers == 1)
 				GL.Enable(EnableCap.Multisample);
 		}
+		protected static void GLCullFace()
+		{
+			GL.CullFace(CullFaceMode.Back);
+		}
 		protected static void GLClear()
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -38,6 +42,14 @@ namespace Flux.src.Platform.OpenGL
 		protected static void GLViewport(int x, int y, int width, int height)
 		{
 			GL.Viewport(x, y, width, height);
+		}
+		protected static void GLActiveTexture(TextureUnit unit)
+		{
+			GL.ActiveTexture(unit);
+		}
+		protected static void GLBindTexture(int handle)
+		{
+			GL.BindTexture(TextureTarget.Texture2D, handle);
 		}
 	}
 }

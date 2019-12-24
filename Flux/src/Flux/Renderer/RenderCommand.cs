@@ -11,6 +11,10 @@ namespace Flux.src.Flux.Renderer
 		{
 			GLEnableMSAA();
 		}
+		public static void EnableCullFace()
+		{
+			GLCullFace();
+		}
 		public static void SetClearColor(OpenTK.Graphics.Color4 color)
 		{
 			GLSetClearColor(color);
@@ -19,13 +23,21 @@ namespace Flux.src.Flux.Renderer
 		{
 			GLClear();
 		}
-		protected static void DrawIndexed(Platform.OpenGL.OpenGLVertexArray vertexArrray)
+		public static void DrawIndexed(Platform.OpenGL.OpenGLVertexArray vertexArrray)
 		{
 			GLDrawIndexed(vertexArrray);
 		}
 		public static void SetViewport(int x, int y, int width, int height)
 		{
 			GLViewport(x, y, width, height);
+		}
+		public static void SetActiveTexture(OpenTK.Graphics.OpenGL.TextureUnit unit)
+		{
+			GLActiveTexture(unit);
+		}
+		public static void BindTexture(int handle)
+		{
+			GLBindTexture(handle);
 		}
 	}
 }

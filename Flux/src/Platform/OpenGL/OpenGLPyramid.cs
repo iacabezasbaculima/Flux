@@ -36,7 +36,7 @@ namespace Flux.src.Platform.OpenGL
 		public void Init()
 		{
 			vao = new OpenGLVertexArray();
-			OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(vertices, vertices.Length, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
+			OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(vertices, vertices.Length, BufferUsageHint.StaticDraw);
 			BufferLayout bl = new BufferLayout
 			{
 				{ShaderDataType.Float3, "Position" },
@@ -45,7 +45,7 @@ namespace Flux.src.Platform.OpenGL
 			bl.CalculateOffsetsAndStride();
 			vbo.SetLayout(bl);
 			vao.AddVertexBuffer(vbo);
-			OpenGLIndexBuffer ibo = new OpenGLIndexBuffer(indices, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
+			OpenGLIndexBuffer ibo = new OpenGLIndexBuffer(indices, BufferUsageHint.StaticDraw);
 			vao.SetIndexBuffer(ibo);
 		}
 		public void Draw()
