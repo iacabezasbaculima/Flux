@@ -14,13 +14,12 @@ namespace Flux.src
 	{
 		FL.IShape cube;
 		FL.IShape quad;
-		FL.Texture2D woodTex;
 		FL.Shader lightShader;
 		FL.Shader lampShader;
 		FL.GuiRenderer guiRenderer;
 		List<FL.GuiTexture> guis;
-		FL.GuiTexture gui;
-		FL.GuiTexture gui2;
+		FL.GuiTexture crate;
+		FL.GuiTexture hulk;
 
 		public double t = 0;
 		// This is the position of both the light and the place the lamp cube will be drawn in the scene
@@ -44,7 +43,7 @@ namespace Flux.src
 				$"	GLSL: {GL.GetString(StringName.ShadingLanguageVersion)}\n");
 			
 			FL.RenderCommand.SetClearColor(Color4.BlueViolet);
-			FL.RenderCommand.EnableDepthTest();
+			FL.RenderCommand.EnableDepthTest(true);
 			FL.RenderCommand.EnableMSAA();
 			FL.RenderCommand.EnableCullFace();
 			FL.RenderCommand.Clear();
@@ -56,9 +55,6 @@ namespace Flux.src
 			lightShader = FL.Shader.Create("Light", "light.vert", "light.frag");
 			lampShader = FL.Shader.Create("Lamp", "light.vert", "lamp.frag");
 
-			// Wooden crate texture
-			woodTex = FL.Texture2D.Create("crate.jpg");
-			
 			// Shapes
 			quad = FL.Renderer.CreateQuad();
 			cube = FL.Renderer.CreateCube();
@@ -66,10 +62,10 @@ namespace Flux.src
 			// GUI textures
 			guiRenderer = new FL.GuiRenderer();
 			guis = new List<FL.GuiTexture>();
-			gui = new FL.GuiTexture(woodTex, new Vector2(0f, 0f), new Vector2(0.25f, 0.25f));
-			gui2 = new FL.GuiTexture(woodTex, new Vector2(.5f, .5f), new Vector2(0.5f, 0.5f));
-			guis.Add(gui);
-			guis.Add(gui2);
+			crate = new FL.GuiTexture(FL.Texture2D.Create("crate.jpg"), new Vector2(0f, 0f), new Vector2(0.25f, 0.25f));
+			hulk = new FL.GuiTexture(FL.Texture2D.Create("hulk256.png"), new Vector2(.5f, .5f), new Vector2(0.5f, 0.5f));
+			guis.Add(crate);
+			guis.Add(hulk);
 
 			// Subscribe to game loop events
 			RenderFrame += SandBox_RenderFrame;
@@ -216,19 +212,6 @@ namespace Flux.src
 			if (e.Key == Key.Escape)
 				Exit();
 				
-		}
-		protected override void OnKeyUp(KeyboardKeyEventArgs e)
-		{
-			base.OnKeyUp(e);
-
-		}
-		protected override void OnKeyPress(KeyPressEventArgs e)
-		{
-			var input = Keyboard.GetState();
-
-			//if (input.IsKeyDown(Key.N)) isready = true;
-
-			base.OnKeyPress(e);
 		}
 	}
 }

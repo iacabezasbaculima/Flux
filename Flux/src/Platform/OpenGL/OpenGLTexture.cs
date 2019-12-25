@@ -24,7 +24,6 @@ namespace Flux.src.Platform.OpenGL
 
 			using (Bitmap bmp = new Bitmap(Path))
 			{
-				if (bmp == null) throw new Exception("Failed to load image.");
 				Width = bmp.Width;
 				Height = bmp.Height;
 				Channels = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb ? 4 : 3;
@@ -34,27 +33,26 @@ namespace Flux.src.Platform.OpenGL
 
 				// All further texture state calls are applied on texture unit zero
 				GL.ActiveTexture(TextureUnit.Texture0);
-				GL.GenTextures(1, out TextureHandle);
+				GL.CreateTextures(TextureTarget.Texture2D, 1, out TextureHandle);
 				GL.BindTexture(TextureTarget.Texture2D, TextureHandle);
-				GL.TexStorage2D(TextureTarget2d.Texture2D, 1, InternalFormat, Width, Height);
-				GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, Width, Height, DataFormat, PixelType.UnsignedByte, data.Scan0);
+				GL.TextureStorage2D(TextureHandle, 1, InternalFormat, Width, Height);
+				GL.TextureSubImage2D(TextureHandle, 0, 0, 0, Width, Height, DataFormat, PixelType.UnsignedByte, data.Scan0);
 			}
 			int[] texParams = new int[] { 
 				(int)All.Nearest,
 				(int)All.Linear,
 				(int)All.Repeat
 			};
-			GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref texParams[1]);
-			GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ref texParams[0]);
+			GL.TextureParameterI(TextureHandle, TextureParameterName.TextureMinFilter, ref texParams[1]);
+			GL.TextureParameterI(TextureHandle, TextureParameterName.TextureMagFilter, ref texParams[0]);
 			// S (x-axis), T (y-axis)
-			GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, ref texParams[2]);
-			GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref texParams[2]);
-			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+			GL.TextureParameterI(TextureHandle, TextureParameterName.TextureWrapS, ref texParams[2]);
+			GL.TextureParameterI(TextureHandle, TextureParameterName.TextureWrapT, ref texParams[2]);
+			GL.GenerateTextureMipmap(TextureHandle);
 		}
-		public override void Bind(TextureUnit unit = TextureUnit.Texture0)
+		public override void Bind(int unit)
 		{
-			GL.ActiveTexture(unit);
-			GL.BindTexture(TextureTarget.Texture2D, TextureHandle);
+			GL.BindTextureUnit(unit, TextureHandle);
 		}
 		public override int GetTextureID()
 		{

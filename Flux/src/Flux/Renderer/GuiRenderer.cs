@@ -39,7 +39,10 @@ namespace Flux.src.Flux.Renderer
 			_shader.Bind();
 			_vao.Bind();
 			// Enable alpha blending
+			RenderCommand.EnableBlend(true);
 			// Disable depth test
+			RenderCommand.EnableDepthTest(false);
+			// The last gui element added to list is rendered first
 			foreach (var gui in guis)
 			{
 				// Unit Texture0 is the default
@@ -49,7 +52,9 @@ namespace Flux.src.Flux.Renderer
 				RenderCommand.DrawIndexed(_vao);
 			}
 			// enable depth test
+			RenderCommand.EnableDepthTest(true);
 			// disable alpha blending
+			RenderCommand.EnableBlend(false);
 			_vao.Unbind();
 			// should unbind shader program below, we assume that a new shader will be used below to override the current shader
 		}

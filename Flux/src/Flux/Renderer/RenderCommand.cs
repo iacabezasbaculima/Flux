@@ -3,9 +3,9 @@ namespace Flux.src.Flux.Renderer
 {
 	public class RenderCommand : Platform.OpenGL.OpenGLRenderer
 	{
-		public static void EnableDepthTest()
+		public static void EnableDepthTest(bool isEnabled)
 		{
-			GLEnableDepthTest();
+			GLEnableDepthTest(isEnabled);
 		}
 		public static void EnableMSAA()
 		{
@@ -14,6 +14,10 @@ namespace Flux.src.Flux.Renderer
 		public static void EnableCullFace()
 		{
 			GLCullFace();
+		}
+		public static void EnableBlend(bool isEnabled)
+		{
+			GLEnableBlend(isEnabled);
 		}
 		public static void SetClearColor(OpenTK.Graphics.Color4 color)
 		{

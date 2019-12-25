@@ -10,9 +10,12 @@ namespace Flux.src.Platform.OpenGL
 {
 	public class OpenGLRenderer 
 	{
-		protected static void GLEnableDepthTest()
+		protected static void GLEnableDepthTest(bool isEnabled)
 		{
-			GL.Enable(EnableCap.DepthTest);
+			if (isEnabled)
+				GL.Enable(EnableCap.DepthTest);
+			else
+				GL.Disable(EnableCap.DepthTest);
 		}
 		protected static void GLEnableMSAA()
 		{
@@ -20,6 +23,16 @@ namespace Flux.src.Platform.OpenGL
 			//Console.WriteLine("sample buffers: " + buffers);
 			if (buffers == 1)
 				GL.Enable(EnableCap.Multisample);
+		}
+		protected static void GLEnableBlend(bool isEnabled)
+		{
+			if (isEnabled)
+			{
+				GL.Enable(EnableCap.Blend);
+				GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+			}
+			else
+				GL.Disable(EnableCap.Blend);
 		}
 		protected static void GLCullFace()
 		{
