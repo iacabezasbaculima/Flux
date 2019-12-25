@@ -14,12 +14,14 @@ namespace Flux.src
 	{
 		FL.IShape cube;
 		FL.IShape quad;
-		FL.Texture woodTex;
+		FL.Texture2D woodTex;
 		FL.Shader lightShader;
 		FL.Shader lampShader;
 		FL.GuiRenderer guiRenderer;
 		List<FL.GuiTexture> guis;
 		FL.GuiTexture gui;
+		FL.GuiTexture gui2;
+
 		public double t = 0;
 		// This is the position of both the light and the place the lamp cube will be drawn in the scene
 		private readonly Vector3 _lightPos = new Vector3(2f, 0.0f, 0.0f);
@@ -53,10 +55,10 @@ namespace Flux.src
 			// Load shaders
 			lightShader = FL.Shader.Create("Light", "light.vert", "light.frag");
 			lampShader = FL.Shader.Create("Lamp", "light.vert", "lamp.frag");
-			
-			// Wooden crate texture
-			woodTex = new FL.Texture("assets/images/crate.jpg");
 
+			// Wooden crate texture
+			woodTex = FL.Texture2D.Create("crate.jpg");
+			
 			// Shapes
 			quad = FL.Renderer.CreateQuad();
 			cube = FL.Renderer.CreateCube();
@@ -64,8 +66,10 @@ namespace Flux.src
 			// GUI textures
 			guiRenderer = new FL.GuiRenderer();
 			guis = new List<FL.GuiTexture>();
-			gui = new FL.GuiTexture(woodTex.Handle, new Vector2(0f, 0f), new Vector2(0.25f, 0.25f));
+			gui = new FL.GuiTexture(woodTex, new Vector2(0f, 0f), new Vector2(0.25f, 0.25f));
+			gui2 = new FL.GuiTexture(woodTex, new Vector2(.5f, .5f), new Vector2(0.5f, 0.5f));
 			guis.Add(gui);
+			guis.Add(gui2);
 
 			// Subscribe to game loop events
 			RenderFrame += SandBox_RenderFrame;

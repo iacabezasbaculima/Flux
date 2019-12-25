@@ -9,17 +9,17 @@ namespace Flux.src.Flux.Renderer
 {
 	public class GuiTexture
 	{
+		public Texture2D GuiTex;
 		private Vector2 _position;
 		private Vector2 _scale;
 
-		public GuiTexture(int textureID, Vector2 position, Vector2 scale)
+		public GuiTexture(Texture2D texture, Vector2 position, Vector2 scale)
 		{
-			TextureID = textureID;
+			GuiTex = texture;
 			_position = position;
 			_scale = scale;
 		}
 
-		public int TextureID { get; set; }
 		public Vector2 Position { get => _position; set => _position = value; }
 		public Vector2 Scale { get => _scale; set => _scale = value; }
 	}

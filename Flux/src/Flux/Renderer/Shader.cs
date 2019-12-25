@@ -6,13 +6,12 @@ namespace Flux.src.Flux.Renderer
 { 
 	public class Shader
 	{
-		public virtual void Bind() { }
-		public virtual void Unbind() { }
 		public static Shader Create(string name, string vertexFilename, string fragmentFilename)
 		{
 			return new OpenGLShader(name, vertexFilename, fragmentFilename);
 		}
-
+		public virtual void Bind() { }
+		public virtual void Unbind() { }
 		public virtual void SetInt(string name, int val) { }
 		public virtual void SetFloat(string name, float val) { }
 		public virtual void SetMatrix4(string name, Matrix4 m, bool transpose = true) { }

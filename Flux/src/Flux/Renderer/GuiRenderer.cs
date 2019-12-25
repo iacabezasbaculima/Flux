@@ -42,9 +42,8 @@ namespace Flux.src.Flux.Renderer
 			// Disable depth test
 			foreach (var gui in guis)
 			{
-				// Texture0 is the default for a sampler, here it's explicit for future reference
-				RenderCommand.SetActiveTexture(OpenTK.Graphics.OpenGL.TextureUnit.Texture0);
-				RenderCommand.BindTexture(gui.TextureID);
+				// Unit Texture0 is the default
+				gui.GuiTex.Bind();
 				OpenTK.Matrix4 transformation = Utility.MathUtility.CreateTransformationMatrix(gui.Position, gui.Scale);
 				_shader.SetMatrix4("transform", transformation, false);
 				RenderCommand.DrawIndexed(_vao);

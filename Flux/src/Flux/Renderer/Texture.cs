@@ -1,52 +1,21 @@
-﻿using System;
-using System.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
-using OpenTK.Graphics.OpenGL;
+﻿using Flux.src.Platform.OpenGL;
 
 namespace Flux.src.Flux.Renderer
 {
-	public class Texture : IDisposable
+	public class Texture 
 	{
-		public int Handle;
+		public virtual void Bind(OpenTK.Graphics.OpenGL4.TextureUnit unit = OpenTK.Graphics.OpenGL4.TextureUnit.Texture0) { }
+		public virtual int GetTextureID() { return 0; }
+		public virtual int GetWidth() { return 0; }
+		public virtual int GetHeight() { return 0; }	
+		public virtual void SetTest() { }
+	}
 
-		public Texture(string filePath)
+	public class Texture2D : Texture
+	{
+		public static Texture2D Create(string fileName)
 		{
-			Handle = GL.GenTexture();
-			Use();
-			try
-			{
-				CreateTexture(filePath);
-			}
-			catch (FileNotFoundException e)
-			{
-				Console.WriteLine(e);
-			}
+			return new OpenGLTexture(fileName);
 		}
-		public void Use()
-		{
-			GL.BindTexture(TextureTarget.Texture2D, Handle);
-		}
-		public void CreateTexture(string path)
-		{
-			Bitmap bmp = new Bitmap(path);
-
-			BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-			ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-			OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-			bmp.UnlockBits(data);
-
-			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-		}
-
-		public void Dispose()
-		{
-			//Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
 	}
 }
