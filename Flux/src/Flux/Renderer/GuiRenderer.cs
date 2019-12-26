@@ -20,7 +20,7 @@ namespace Flux.src.Flux.Renderer
 			float[] positions = { 1, 1, 1, -1, -1, -1, -1, 1 };
 			uint[] indices = { 0, 1, 3, 1, 2, 3 };
 
-			OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(positions, positions.Length, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
+			VertexBuffer vbo = VertexBuffer.Create(positions);
 			
 			BufferLayout bl = new BufferLayout {
 				{ShaderDataType.Float2, "position" }
@@ -39,9 +39,11 @@ namespace Flux.src.Flux.Renderer
 			_shader.Bind();
 			_vao.Bind();
 			// Enable alpha blending
-			RenderCommand.EnableBlend(true);
+			RenderCommand.SetBlend(true);
 			// Disable depth test
-			RenderCommand.EnableDepthTest(false);
+			RenderCommand.SetDepthTest(false);
+			// Disable culling
+			RenderCommand.SetCullFace(false);
 			// The last gui element added to list is rendered first
 			foreach (var gui in guis)
 			{
@@ -52,9 +54,11 @@ namespace Flux.src.Flux.Renderer
 				RenderCommand.DrawIndexed(_vao);
 			}
 			// enable depth test
-			RenderCommand.EnableDepthTest(true);
+			RenderCommand.SetDepthTest(true);
 			// disable alpha blending
-			RenderCommand.EnableBlend(false);
+			RenderCommand.SetBlend(false);
+			// Enable culling
+			RenderCommand.SetCullFace(true);
 			_vao.Unbind();
 			// should unbind shader program below, we assume that a new shader will be used below to override the current shader
 		}

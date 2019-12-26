@@ -3,12 +3,12 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Flux.src.Platform.OpenGL
 {
-	public class OpenGLVertexBuffer : Flux.Renderer.Buffer
+	public class OpenGLVertexBuffer : VertexBuffer
 	{
 		public readonly int bufferId;
 		private BufferLayout layout;
 
-		internal OpenGLVertexBuffer(float[] vertices, int length, BufferUsageHint hint)
+		internal OpenGLVertexBuffer(float[] vertices, BufferUsageHint hint)
 		{
 			bufferId = GL.GenBuffer();
 			Create(vertices, hint);
@@ -27,7 +27,7 @@ namespace Flux.src.Platform.OpenGL
 		}
 		public override BufferLayout GetLayout()
 		{
-			return this.layout;
+			return layout;
 		}
 		private void Create(float[] vertices, BufferUsageHint hint)
 		{

@@ -1,47 +1,45 @@
 ﻿
 namespace Flux.src.Flux.Renderer
 {
-	public class RenderCommand : Platform.OpenGL.OpenGLRenderer
+	public class RenderCommand
 	{
-		public static void EnableDepthTest(bool isEnabled)
+		private static RendererAPI RendererAPI = RendererAPI.Create();
+
+		public static void Init()
 		{
-			GLEnableDepthTest(isEnabled);
-		}
-		public static void EnableMSAA()
-		{
-			GLEnableMSAA();
-		}
-		public static void EnableCullFace()
-		{
-			GLCullFace();
-		}
-		public static void EnableBlend(bool isEnabled)
-		{
-			GLEnableBlend(isEnabled);
+			RendererAPI.Init();
 		}
 		public static void SetClearColor(OpenTK.Graphics.Color4 color)
 		{
-			GLSetClearColor(color);
+			RendererAPI.SetClearColor(color);
 		}
 		public static void Clear()
 		{
-			GLClear();
+			RendererAPI.Clear();
 		}
-		public static void DrawIndexed(Platform.OpenGL.OpenGLVertexArray vertexArrray)
+		public static void SetBlend(bool isEnabled)
 		{
-			GLDrawIndexed(vertexArrray);
+			RendererAPI.SetBlend(isEnabled);
+		}
+		public static void SetCullFace(bool isEnabled)
+		{
+			RendererAPI.SetCullFace(isEnabled);
+		}
+		public static void SetDepthTest(bool isEnabled)
+		{
+			RendererAPI.SetDepthTest(isEnabled);
+		}
+		public static void SetMSAA(bool isEnabled)
+		{
+			RendererAPI.SetMSAA(isEnabled);
+		}
+		public static void DrawIndexed(VertexArray vertexArrray)
+		{
+			RendererAPI.DrawIndexed(vertexArrray);
 		}
 		public static void SetViewport(int x, int y, int width, int height)
 		{
-			GLViewport(x, y, width, height);
-		}
-		public static void SetActiveTexture(OpenTK.Graphics.OpenGL.TextureUnit unit)
-		{
-			GLActiveTexture(unit);
-		}
-		public static void BindTexture(int handle)
-		{
-			GLBindTexture(handle);
+			RendererAPI.SetViewport(x, y, width, height);
 		}
 	}
 }

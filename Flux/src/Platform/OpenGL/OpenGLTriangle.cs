@@ -13,7 +13,7 @@ namespace Flux.src.Platform.OpenGL
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
 		};
-		public OpenGLVertexArray vao;
+		public VertexArray vao;
 		internal OpenGLTriangle()
 		{
 			Init();
@@ -21,9 +21,9 @@ namespace Flux.src.Platform.OpenGL
 
 		private void Init()
 		{
-			vao = new OpenGLVertexArray();
+			vao = VertexArray.Create();
 
-			OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(vertices, vertices.Length, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
+			VertexBuffer vbo = VertexBuffer.Create(vertices);
 			BufferLayout bl = new BufferLayout
 			{
 				{ShaderDataType.Float3, "position"},

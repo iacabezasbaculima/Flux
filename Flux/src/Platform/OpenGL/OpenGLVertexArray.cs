@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using Flux.src.Flux.Renderer;
 
 namespace Flux.src.Platform.OpenGL
 {
-	public class OpenGLVertexArray
+	public class OpenGLVertexArray : VertexArray
 	{
 		private int _vaoID;
-		private List<OpenGLVertexBuffer> bufferList;
-		private OpenGLIndexBuffer indexBuffer;
+		private List<VertexBuffer> bufferList;
+		private IndexBuffer indexBuffer;
 		public OpenGLVertexArray()
 		{
-			bufferList = new List<OpenGLVertexBuffer>();
+			bufferList = new List<VertexBuffer>();
 			_vaoID = GL.GenVertexArray();
 		}
-		public void Bind()	
+		public override void Bind()	
 		{
 			GL.BindVertexArray(_vaoID);
 		}
 
-		public void Unbind()
+		public override void Unbind()
 		{
 			GL.BindVertexArray(0);
 		}
-		public void AddVertexBuffer(OpenGLVertexBuffer vertexBuffer)
+		public override void AddVertexBuffer(VertexBuffer vertexBuffer)
 		{
 			if (vertexBuffer.GetLayout().GetElements().Count == 0) throw new NotBufferLayoutFound("Vertex buffer has no layout.");
 			GL.BindVertexArray(_vaoID);
@@ -34,7 +35,7 @@ namespace Flux.src.Platform.OpenGL
 				GL.EnableVertexAttribArray(index);
 				GL.VertexAttribPointer(index,
 					item.GetComponentCount(),
-					Flux.Renderer.BufferElement.ShaderDataTypeToGLBaseType(item.type),
+					BufferElement.ShaderDataTypeToGLBaseType(item.type),
 					item.normalized,
 					vertexBuffer.GetLayout().GetStride(),
 					item.offset);
@@ -42,14 +43,14 @@ namespace Flux.src.Platform.OpenGL
 			}
 			bufferList.Add(vertexBuffer);
 		}
-		public void SetIndexBuffer(OpenGLIndexBuffer indexBuffer)
+		public override void SetIndexBuffer(IndexBuffer indexBuffer)
 		{
 			GL.BindVertexArray(_vaoID);
 			indexBuffer.Bind();
 			this.indexBuffer = indexBuffer;
 		}
-		public List<OpenGLVertexBuffer> GetVertexBuffers() { return bufferList; }
-		public OpenGLIndexBuffer GetIndexBuffer() { return indexBuffer; }
+		public override List<VertexBuffer> GetVertexBuffers() { return bufferList; }
+		public override IndexBuffer GetIndexBuffer() { return indexBuffer; }
 	}
 	class NotBufferLayoutFound : Exception
 	{

@@ -28,15 +28,16 @@ namespace Flux.src.Platform.OpenGL
 			4, 2, 3,
 			4, 3, 0
 		};
-		public OpenGLVertexArray vao;
+		public VertexArray vao;
 		public OpenGLPyramid()
 		{
 			Init();
 		}
 		public void Init()
 		{
-			vao = new OpenGLVertexArray();
-			OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(vertices, vertices.Length, BufferUsageHint.StaticDraw);
+			
+			vao = VertexArray.Create();
+			VertexBuffer vbo = VertexBuffer.Create(vertices);
 			BufferLayout bl = new BufferLayout
 			{
 				{ShaderDataType.Float3, "Position" },
@@ -45,7 +46,7 @@ namespace Flux.src.Platform.OpenGL
 			bl.CalculateOffsetsAndStride();
 			vbo.SetLayout(bl);
 			vao.AddVertexBuffer(vbo);
-			OpenGLIndexBuffer ibo = new OpenGLIndexBuffer(indices, BufferUsageHint.StaticDraw);
+			IndexBuffer ibo = IndexBuffer.Create(indices);
 			vao.SetIndexBuffer(ibo);
 		}
 		public void Draw()

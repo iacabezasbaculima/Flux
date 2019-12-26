@@ -16,16 +16,16 @@ namespace Flux.src.Platform.OpenGL
 			0, 1, 3,   // first triangle
 			1, 2, 3    // second triangle
 		};
-		public OpenGLVertexArray vao;
+		public VertexArray vao;
 		public OpenGLQuad()
 		{
 			Init();
 		}
 		public void Init()
 		{
-			vao = new OpenGLVertexArray();
+			vao = VertexArray.Create();
 
-			OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(vertices, vertices.Length, BufferUsageHint.StaticDraw);
+			VertexBuffer vbo = VertexBuffer.Create(vertices);
 			BufferLayout bl = new BufferLayout
 			{
 				{ShaderDataType.Float3, "position" }
@@ -33,7 +33,7 @@ namespace Flux.src.Platform.OpenGL
 			bl.CalculateOffsetsAndStride();
 			vbo.SetLayout(bl);
 			vao.AddVertexBuffer(vbo);
-			OpenGLIndexBuffer ibo = new OpenGLIndexBuffer(elements, BufferUsageHint.StaticDraw);
+			IndexBuffer ibo = IndexBuffer.Create(elements);
 			vao.SetIndexBuffer(ibo);
 		}
 		public void Draw()

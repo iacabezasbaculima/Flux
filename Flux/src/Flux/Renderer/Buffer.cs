@@ -1,11 +1,30 @@
-﻿namespace Flux.src.Flux.Renderer
+﻿using Flux.src.Platform.OpenGL;
+
+namespace Flux.src.Flux.Renderer
 {
-	public class Buffer
+	public abstract class VertexBuffer
 	{
-		public virtual void Bind() { }
-		public virtual void Unbind() { }
-		public virtual void SetLayout(BufferLayout layout) { }
-		public virtual BufferLayout GetLayout() { return null; }
-		public virtual int GetCount() { return 0; }
+		public abstract void Bind();
+		public abstract void Unbind();
+
+		public abstract BufferLayout GetLayout();
+		public abstract void SetLayout(BufferLayout layout);
+
+		public static VertexBuffer Create(float[] vertices)
+		{
+			return new OpenGLVertexBuffer(vertices, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
+		}
+	}
+	public abstract class IndexBuffer
+	{
+		public abstract void Bind();
+		public abstract void Unbind();
+
+		public abstract int GetCount();
+
+		public static IndexBuffer Create(uint[] indices) 
+		{
+			return new OpenGLIndexBuffer(indices, OpenTK.Graphics.OpenGL.BufferUsageHint.StaticDraw);
+		}
 	}
 }

@@ -1,11 +1,21 @@
-﻿namespace Flux.src.Flux.Renderer
+﻿using System.Collections.Generic;
+using Flux.src.Platform.OpenGL;
+
+namespace Flux.src.Flux.Renderer
 {
-	public class VertexArray : src.Platform.OpenGL.OpenGLVertexArray
+	public abstract class VertexArray
 	{
-		public VertexArray() : base() { }
-		//void Bind();
-		//void Unbind();
-		//void AddVertexBuffer(OpenGLVertexBuffer vertexBuffer);
-		//void SetIndexBuffer(OpenGLIndexBuffer indexBuffer);
+		public abstract void Bind();
+		public abstract void Unbind();
+		public abstract void AddVertexBuffer(VertexBuffer vertexBuffer);
+		public abstract void SetIndexBuffer(IndexBuffer indexBuffer);
+
+		public abstract List<VertexBuffer> GetVertexBuffers();
+		public abstract IndexBuffer GetIndexBuffer();
+
+		public static VertexArray Create()
+		{
+			return new OpenGLVertexArray();
+		}
 	}
 }

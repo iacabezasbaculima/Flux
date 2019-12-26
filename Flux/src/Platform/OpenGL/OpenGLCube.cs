@@ -123,7 +123,7 @@ namespace Flux.src.Platform.OpenGL
 			 0.5f,  0.5f,   0.5f,
 			-0.5f,  0.5f,   0.5f
 		};
-		public OpenGLVertexArray vao;
+		public VertexArray vao;
 
 		public enum VAODataType { VERTS_COLORS, VERTS_NORMALS, VERTS_INDICES}
 		
@@ -133,26 +133,26 @@ namespace Flux.src.Platform.OpenGL
 		}
 		private void Init(VAODataType type)
 		{
-			vao = new OpenGLVertexArray();
+			vao = VertexArray.Create();
 
 			BufferLayout layout = null;
-			OpenGLVertexBuffer vbo = null;
-			OpenGLIndexBuffer ibo = null;
+			VertexBuffer vbo = null;
+			IndexBuffer ibo = null;
 
 			switch (type)
 			{
 				case VAODataType.VERTS_COLORS:
 					layout = new BufferLayout { { ShaderDataType.Float3, "position" }, { ShaderDataType.Float3, "colors" } };
-					vbo = new OpenGLVertexBuffer(_verticesColors, _verticesColors.Length, BufferUsageHint.StaticDraw);
+					vbo = VertexBuffer.Create(_verticesColors);
 					break;
 				case VAODataType.VERTS_NORMALS:
 					layout = new BufferLayout { { ShaderDataType.Float3, "position" }, { ShaderDataType.Float3, "normals" } };
-					vbo = new OpenGLVertexBuffer(_verticesNormals, _verticesNormals.Length, BufferUsageHint.StaticDraw);
+					vbo = VertexBuffer.Create(_verticesNormals);
 					break;
 				case VAODataType.VERTS_INDICES:
 					layout = new BufferLayout { { ShaderDataType.Float3, "position" } };
-					vbo = new OpenGLVertexBuffer(_vertices, _vertices.Length, BufferUsageHint.StaticDraw);
-					ibo = new OpenGLIndexBuffer(_indices, BufferUsageHint.StaticDraw);
+					vbo = VertexBuffer.Create(_vertices);
+					ibo = IndexBuffer.Create(_indices);
 					break;
 				default:
 					break;
@@ -166,8 +166,7 @@ namespace Flux.src.Platform.OpenGL
 		public void Draw()
 		{
 			vao.Bind(); // REMEMBER TO BIND THE VERTEX ARRAY OBJECT BEFOREHAND (JUST IN CASE)
-			
-			
+		
 			GL.DrawElements(PrimitiveType.Triangles, vao.GetIndexBuffer().GetCount(), DrawElementsType.UnsignedInt, 0);
 			//GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
 		}

@@ -5,18 +5,22 @@ namespace Flux.src.Flux.Renderer
 {	
 	public class Camera
 	{
-		Vector3 front = -Vector3.UnitZ;
-		Vector3 up = Vector3.UnitY;
-		Vector3 right = Vector3.UnitX;
+		private Vector3 front = -Vector3.UnitZ;
+		private Vector3 up = Vector3.UnitY;
+		private Vector3 right = Vector3.UnitX;
 
-		float pitch;
-		float yaw = -MathHelper.PiOver2;
-		float fov = MathHelper.DegreesToRadians(45f);
-		
+		private float pitch;
+		private float yaw = -MathHelper.PiOver2;
+		private float fov = MathHelper.DegreesToRadians(45f);
+
+		public Matrix4 ProjectionMatrix { get => GetProjectionMatrix(); }
+		public Matrix4 ViewMatrix { get => GetViewMatrix(); }
+		public Matrix4 ViewProjectionMatrix { get => GetViewProjectMatrix(); }
+
 		public Camera(Vector3 position, float aspectRatio)
 		{
-			this.Position = position;
-			this.AspectRatio = aspectRatio;
+			Position = position;
+			AspectRatio = aspectRatio;
 		}
 		
 		public Vector3 Position { get; set; }
@@ -62,6 +66,10 @@ namespace Flux.src.Flux.Renderer
 		public Matrix4 GetProjectionMatrix()
 		{
 			return Matrix4.Identity * Matrix4.CreatePerspectiveFieldOfView(fov, AspectRatio, 0.01f, 1000.0f);
+		}
+		public Matrix4 GetViewProjectMatrix()
+		{
+			return GetViewMatrix() * GetProjectionMatrix();
 		}
 		public void UpdateVectors()
 		{

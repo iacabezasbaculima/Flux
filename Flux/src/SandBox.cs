@@ -43,9 +43,9 @@ namespace Flux.src
 				$"	GLSL: {GL.GetString(StringName.ShadingLanguageVersion)}\n");
 			
 			FL.RenderCommand.SetClearColor(Color4.BlueViolet);
-			FL.RenderCommand.EnableDepthTest(true);
-			FL.RenderCommand.EnableMSAA();
-			FL.RenderCommand.EnableCullFace();
+			FL.RenderCommand.SetDepthTest(true);
+			FL.RenderCommand.SetMSAA(true);
+			FL.RenderCommand.SetCullFace(true);
 			FL.RenderCommand.Clear();
 
 			// Camera
