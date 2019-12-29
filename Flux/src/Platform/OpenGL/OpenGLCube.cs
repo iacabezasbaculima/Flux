@@ -8,43 +8,49 @@ namespace Flux.src.Platform.OpenGL
 	public class OpenGLCube : IShape
 	{
 		private readonly float[] _verticesColors = {
-				-1.0f,-1.0f,-1.0f, 0.583f,  0.771f,  0.014f, // triangle 1 : begin
-				-1.0f,-1.0f, 1.0f, 0.609f,  0.115f,  0.436f,
-				-1.0f, 1.0f, 1.0f, 0.327f,  0.483f,  0.844f, // triangle 1 : end
-				1.0f, 1.0f,-1.0f,  0.583f,  0.771f,  0.014f,// triangle 2 : begin
-				-1.0f,-1.0f,-1.0f, 0.609f,  0.115f,  0.436f,
-				-1.0f, 1.0f,-1.0f, 0.327f,  0.483f,  0.844f,// triangle 2 : end
-				1.0f,-1.0f, 1.0f,  0.583f,  0.771f,  0.014f,
-				-1.0f,-1.0f,-1.0f, 0.609f,  0.115f,  0.436f,
-				1.0f,-1.0f,-1.0f,  0.327f,  0.483f,  0.844f,
-				1.0f, 1.0f,-1.0f,  0.583f,  0.771f,  0.014f,
-				1.0f,-1.0f,-1.0f,  0.609f,  0.115f,  0.436f,
-				-1.0f,-1.0f,-1.0f, 0.327f,  0.483f,  0.844f,
-				-1.0f,-1.0f,-1.0f, 0.583f,  0.771f,  0.014f,
-				-1.0f, 1.0f, 1.0f, 0.609f,  0.115f,  0.436f,
-				-1.0f, 1.0f,-1.0f, 0.327f,  0.483f,  0.844f,
-				1.0f,-1.0f, 1.0f,  0.583f,  0.771f,  0.014f,
-				-1.0f,-1.0f, 1.0f, 0.609f,  0.115f,  0.436f,
-				-1.0f,-1.0f,-1.0f, 0.327f,  0.483f,  0.844f,
-				-1.0f, 1.0f, 1.0f, 0.583f,  0.771f,  0.014f,
-				-1.0f,-1.0f, 1.0f, 0.609f,  0.115f,  0.436f,
-				1.0f,-1.0f, 1.0f,  0.327f,  0.483f,  0.844f,
-				1.0f, 1.0f, 1.0f,  0.583f,  0.771f,  0.014f,
-				1.0f,-1.0f,-1.0f,  0.609f,  0.115f,  0.436f,
-				1.0f, 1.0f,-1.0f,  0.327f,  0.483f,  0.844f,
-				1.0f,-1.0f,-1.0f,  0.583f,  0.771f,  0.014f,
-				1.0f, 1.0f, 1.0f,  0.609f,  0.115f,  0.436f,
-				1.0f,-1.0f, 1.0f,  0.327f,  0.483f,  0.844f,
-				1.0f, 1.0f, 1.0f,  0.583f,  0.771f,  0.014f,
-				1.0f, 1.0f,-1.0f,  0.609f,  0.115f,  0.436f,
-				-1.0f, 1.0f,-1.0f, 0.327f,  0.483f,  0.844f,
-				1.0f, 1.0f, 1.0f,  0.583f,  0.771f,  0.014f,
-				-1.0f, 1.0f,-1.0f, 0.609f,  0.115f,  0.436f,
-				-1.0f, 1.0f, 1.0f, 0.327f,  0.483f,  0.844f,
-				1.0f, 1.0f, 1.0f,  0.583f,  0.771f,  0.014f,
-				-1.0f, 1.0f, 1.0f, 0.609f,  0.115f,  0.436f,
-				1.0f,-1.0f, 1.0f,  0.327f,  0.483f,  0.844f
-			}; 
+			-0.5f, -0.5f, -0.5f, 0.583f,  0.771f,  0.014f, // triangle 1 : begin
+			 0.5f, -0.5f, -0.5f, 0.609f,  0.115f,  0.436f,
+			 0.5f,  0.5f, -0.5f, 0.327f,  0.483f,  0.844f, // triangle 1 : end
+			 0.5f,  0.5f, -0.5f, 0.583f,  0.771f,  0.014f,// triangle 2 : begin
+			-0.5f,  0.5f, -0.5f, 0.609f,  0.115f,  0.436f,
+			-0.5f, -0.5f, -0.5f, 0.327f,  0.483f,  0.844f,// triangle 2 : end
+
+			-0.5f, -0.5f,  0.5f, 0.583f,  0.771f,  0.014f,
+			 0.5f, -0.5f,  0.5f, 0.609f,  0.115f,  0.436f,
+			 0.5f,  0.5f,  0.5f, 0.327f,  0.483f,  0.844f,
+			 0.5f,  0.5f,  0.5f, 0.583f,  0.771f,  0.014f,
+			-0.5f,  0.5f,  0.5f, 0.609f,  0.115f,  0.436f,
+			-0.5f, -0.5f,  0.5f, 0.327f,  0.483f,  0.844f,
+
+			-0.5f,  0.5f,  0.5f, 0.583f,  0.771f,  0.014f,
+			-0.5f,  0.5f, -0.5f, 0.609f,  0.115f,  0.436f,
+			-0.5f, -0.5f, -0.5f, 0.327f,  0.483f,  0.844f,
+			-0.5f, -0.5f, -0.5f, 0.583f,  0.771f,  0.014f,
+			-0.5f, -0.5f,  0.5f, 0.609f,  0.115f,  0.436f,
+			-0.5f,  0.5f,  0.5f, 0.327f,  0.483f,  0.844f,
+
+			 0.5f,  0.5f,  0.5f, 0.583f,  0.771f,  0.014f,
+			 0.5f,  0.5f, -0.5f, 0.609f,  0.115f,  0.436f,
+			 0.5f, -0.5f, -0.5f, 0.327f,  0.483f,  0.844f,
+			 0.5f, -0.5f, -0.5f, 0.583f,  0.771f,  0.014f,
+			 0.5f, -0.5f,  0.5f, 0.609f,  0.115f,  0.436f,
+			 0.5f,  0.5f,  0.5f, 0.327f,  0.483f,  0.844f,
+
+			-0.5f, -0.5f, -0.5f, 0.583f,  0.771f,  0.014f,
+			 0.5f, -0.5f, -0.5f, 0.609f,  0.115f,  0.436f,
+			 0.5f, -0.5f,  0.5f, 0.327f,  0.483f,  0.844f,
+			 0.5f, -0.5f,  0.5f, 0.583f,  0.771f,  0.014f,
+			-0.5f, -0.5f,  0.5f, 0.609f,  0.115f,  0.436f,
+			-0.5f, -0.5f, -0.5f, 0.327f,  0.483f,  0.844f,
+
+			-0.5f,  0.5f, -0.5f, 0.583f,  0.771f,  0.014f,
+			 0.5f,  0.5f, -0.5f, 0.609f,  0.115f,  0.436f,
+			 0.5f,  0.5f,  0.5f, 0.327f,  0.483f,  0.844f,
+			 0.5f,  0.5f,  0.5f, 0.583f,  0.771f,  0.014f,
+			-0.5f,  0.5f,  0.5f, 0.609f,  0.115f,  0.436f,
+			-0.5f,  0.5f, -0.5f, 0.327f,  0.483f,  0.844f
+		}; 
+
 		private readonly float[] _verticesNormals =
 		{
              // Position          Normal
@@ -91,6 +97,18 @@ namespace Flux.src.Platform.OpenGL
 			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 		};
 
+		private readonly float[] _vertices =
+		{
+			-0.5f, -0.5f,  -0.5f,
+			 0.5f, -0.5f,  -0.5f,
+			 0.5f,  0.5f,  -0.5f,
+			-0.5f,  0.5f,  -0.5f,
+			-0.5f, -0.5f,   0.5f,
+			 0.5f, -0.5f,   0.5f,
+			 0.5f,  0.5f,   0.5f,
+			-0.5f,  0.5f,   0.5f
+		};
+		
 		private readonly uint[] _indices =
 		{
 			//left
@@ -112,20 +130,10 @@ namespace Flux.src.Platform.OpenGL
             0, 1, 5,
 			0, 5, 4
 		};
-		private readonly float[] _vertices =
-		{
-			-0.5f, -0.5f,  -0.5f,
-			 0.5f, -0.5f,  -0.5f,
-			 0.5f,  0.5f,  -0.5f,
-			-0.5f,  0.5f,  -0.5f,
-			-0.5f, -0.5f,   0.5f,
-			 0.5f, -0.5f,   0.5f,
-			 0.5f,  0.5f,   0.5f,
-			-0.5f,  0.5f,   0.5f
-		};
+		
 		public VertexArray vao;
 
-		public enum VAODataType { VERTS_COLORS, VERTS_NORMALS, VERTS_INDICES}
+		public enum VAODataType { VERTS, VERTS_COLORS, VERTS_NORMALS }
 		
 		public OpenGLCube(VAODataType type)
 		{
@@ -144,12 +152,14 @@ namespace Flux.src.Platform.OpenGL
 				case VAODataType.VERTS_COLORS:
 					layout = new BufferLayout { { ShaderDataType.Float3, "position" }, { ShaderDataType.Float3, "colors" } };
 					vbo = VertexBuffer.Create(_verticesColors);
+					ibo = IndexBuffer.Create(_indices);
 					break;
 				case VAODataType.VERTS_NORMALS:
 					layout = new BufferLayout { { ShaderDataType.Float3, "position" }, { ShaderDataType.Float3, "normals" } };
 					vbo = VertexBuffer.Create(_verticesNormals);
+					ibo = IndexBuffer.Create(_indices);
 					break;
-				case VAODataType.VERTS_INDICES:
+				case VAODataType.VERTS:
 					layout = new BufferLayout { { ShaderDataType.Float3, "position" } };
 					vbo = VertexBuffer.Create(_vertices);
 					ibo = IndexBuffer.Create(_indices);
@@ -166,7 +176,6 @@ namespace Flux.src.Platform.OpenGL
 		public void Draw()
 		{
 			vao.Bind(); // REMEMBER TO BIND THE VERTEX ARRAY OBJECT BEFOREHAND (JUST IN CASE)
-		
 			GL.DrawElements(PrimitiveType.Triangles, vao.GetIndexBuffer().GetCount(), DrawElementsType.UnsignedInt, 0);
 			//GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
 		}

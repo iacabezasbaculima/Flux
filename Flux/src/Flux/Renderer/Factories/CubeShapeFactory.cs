@@ -5,7 +5,7 @@ namespace Flux.src.Flux.Renderer
 	{
 		public IShape Create()
 		{
-			return new Platform.OpenGL.OpenGLCube(Platform.OpenGL.OpenGLCube.VAODataType.VERTS_INDICES);
+			return new Platform.OpenGL.OpenGLCube(Platform.OpenGL.OpenGLCube.VAODataType.VERTS);
 		}
 	}
 }

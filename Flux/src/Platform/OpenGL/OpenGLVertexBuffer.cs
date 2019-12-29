@@ -34,11 +34,5 @@ namespace Flux.src.Platform.OpenGL
 			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferId);
 			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, hint);
 		}
-		public void UpdateBuffer(float[] data)
-		{
-			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferId);
-			GL.BufferData(BufferTarget.ArrayBuffer, data.Length * sizeof(float), data, BufferUsageHint.DynamicDraw);
-		}
-		
 	}
 }

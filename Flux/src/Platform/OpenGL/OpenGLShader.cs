@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using Flux.src.Flux.Renderer;
 
@@ -11,9 +11,9 @@ namespace Flux.src.Platform.OpenGL
 	public class OpenGLShader : Shader
 	{
 		public int ProgramHandle { get; private set; } = -1;
-		public string ShaderName { get; private set; }
-		public int AttributeCount { get; private set; } = 0;
-		public int UniformCount { get; private set; } = 0;
+		public string ShaderName { get; private set; } = "";
+		public int AttributeCount { get; private set; }
+		public int UniformCount { get; private set; }
 
 		public Dictionary<string, AttributeInfo> Attributes = new Dictionary<string, AttributeInfo>();
 		public Dictionary<string, UniformInfo> Uniforms = new Dictionary<string, UniformInfo>();
@@ -97,7 +97,11 @@ namespace Flux.src.Platform.OpenGL
 				Console.WriteLine($"\n{ShaderName.ToUpper()} shader has been successfully created:\nID: ({ProgramHandle})");
 				foreach (var item in Uniforms)
 				{
-					Console.WriteLine($"{item.Key, -20}: {item.Value.type}");
+					Console.WriteLine($"{item.Key, -20}: [Location: {item.Value.location}, Size: {item.Value.size}, Type: {item.Value.type}]");
+				}
+				foreach (var item in Attributes)
+				{
+					Console.WriteLine($"{item.Key, -20}: [Location: {item.Value.location}, Size: {item.Value.size}, Type: {item.Value.type}]");
 				}
 				Console.WriteLine("\n");
 			}
@@ -105,6 +109,8 @@ namespace Flux.src.Platform.OpenGL
 		private void GetAttributes()
 		{
 			GL.GetProgram(ProgramHandle, GetProgramParameterName.ActiveAttributes, out var numberOfAttribs);
+			GL.GetProgramInterface(ProgramHandle, ProgramInterface.ProgramInput, 
+				ProgramInterfaceParameter.ActiveResources, out var num);
 
 			for (int i = 0; i < numberOfAttribs; i++)
 			{
@@ -112,7 +118,7 @@ namespace Flux.src.Platform.OpenGL
 				int length = 0;
 
 				GL.GetActiveAttrib(ProgramHandle, i, 256, out length, out info.size, out info.type, out info.name);
-
+				info.location = GL.GetAttribLocation(ProgramHandle, info.name);
 				Attributes.Add(info.name, info);
 			}
 		}
@@ -138,6 +144,12 @@ namespace Flux.src.Platform.OpenGL
 		{
 			GL.UseProgram(0);
 		}
+		public override void SetMVPMatrix(Matrix4 model, Matrix4 view, Matrix4 projection)
+		{
+			GL.UniformMatrix4(Uniforms["model"].location, true, ref model);
+			GL.UniformMatrix4(Uniforms["view"].location, true, ref view);
+			GL.UniformMatrix4(Uniforms["projection"].location, true, ref projection);
+		}
 		public override void SetInt(string name, int val)
 		{
 			GL.Uniform1(Uniforms[name].location, val);
@@ -146,15 +158,15 @@ namespace Flux.src.Platform.OpenGL
 		{
 			GL.Uniform1(Uniforms[name].location, val);
 		}
-		public override void SetMatrix4(string name, OpenTK.Matrix4 m, bool transpose = true)
+		public override void SetMatrix4(string name, Matrix4 m, bool transpose = true)
 		{
 			GL.UniformMatrix4(Uniforms[name].location, transpose, ref m);
 		}
-		public override void SetVector3(string name, OpenTK.Vector3 v)
+		public override void SetVector3(string name, Vector3 v)
 		{
 			GL.Uniform3(Uniforms[name].location, ref v);
 		}
-		public override void SetVector4(string name, OpenTK.Vector4 v)
+		public override void SetVector4(string name, Vector4 v)
 		{
 			GL.Uniform4(Uniforms[name].location, ref v);
 		}

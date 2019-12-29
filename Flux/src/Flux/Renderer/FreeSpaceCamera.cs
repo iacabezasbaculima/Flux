@@ -3,7 +3,7 @@ using OpenTK;
 
 namespace Flux.src.Flux.Renderer
 {	
-	public class Camera
+	public class FreeSpaceCamera
 	{
 		private Vector3 front = -Vector3.UnitZ;
 		private Vector3 up = Vector3.UnitY;
@@ -17,12 +17,11 @@ namespace Flux.src.Flux.Renderer
 		public Matrix4 ViewMatrix { get => GetViewMatrix(); }
 		public Matrix4 ViewProjectionMatrix { get => GetViewProjectMatrix(); }
 
-		public Camera(Vector3 position, float aspectRatio)
+		public FreeSpaceCamera(Vector3 position, float aspectRatio)
 		{
 			Position = position;
 			AspectRatio = aspectRatio;
 		}
-		
 		public Vector3 Position { get; set; }
 		public float AspectRatio { private get; set; }
 
@@ -55,15 +54,15 @@ namespace Flux.src.Flux.Renderer
 			get => MathHelper.RadiansToDegrees(fov);
 			set
 			{
-				var angle = MathHelper.Clamp(value, 1f, 145f);
+				var angle = MathHelper.Clamp(value, 1f, 45f);
 				fov = MathHelper.DegreesToRadians(angle);
 			}
 		}
-		public Matrix4 GetViewMatrix()
+		private Matrix4 GetViewMatrix()
 		{
 			return Matrix4.Identity * Matrix4.LookAt(Position, Position + front, up);
 		}
-		public Matrix4 GetProjectionMatrix()
+		private Matrix4 GetProjectionMatrix()
 		{
 			return Matrix4.Identity * Matrix4.CreatePerspectiveFieldOfView(fov, AspectRatio, 0.01f, 1000.0f);
 		}

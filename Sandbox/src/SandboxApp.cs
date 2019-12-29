@@ -6,9 +6,9 @@ namespace Sandbox.src
 	{
 		public static void Main(string[] args)
 		{
-			using (SandBox mygame = new SandBox(800, 600, "Flux Engine Sandbox App"))
+			using (var game = new LoadObjFileWithVectorLists())
 			{
-				mygame.Run(60.0, 60.0);
+				game.Run(60.0, 60.0);
 			}
 		}
 	}

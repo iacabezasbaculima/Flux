@@ -8,6 +8,7 @@ namespace Flux.src.Platform.OpenGL
 	public class OpenGLVertexArray : VertexArray
 	{
 		private int _vaoID;
+		private int _vertexBufferIndex = 0;
 		private List<VertexBuffer> bufferList;
 		private IndexBuffer indexBuffer;
 		public OpenGLVertexArray()
@@ -29,17 +30,18 @@ namespace Flux.src.Platform.OpenGL
 			if (vertexBuffer.GetLayout().GetElements().Count == 0) throw new NotBufferLayoutFound("Vertex buffer has no layout.");
 			GL.BindVertexArray(_vaoID);
 			vertexBuffer.Bind();
-			int index = 0;
+			//int index = 0;
 			foreach (var item in vertexBuffer.GetLayout())
 			{
-				GL.EnableVertexAttribArray(index);
-				GL.VertexAttribPointer(index,
+				GL.EnableVertexAttribArray(_vertexBufferIndex);
+				GL.VertexAttribPointer(_vertexBufferIndex,
 					item.GetComponentCount(),
 					BufferElement.ShaderDataTypeToGLBaseType(item.type),
 					item.normalized,
 					vertexBuffer.GetLayout().GetStride(),
 					item.offset);
-				index++;
+
+				_vertexBufferIndex++;
 			}
 			bufferList.Add(vertexBuffer);
 		}

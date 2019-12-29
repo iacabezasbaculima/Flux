@@ -8,7 +8,7 @@ namespace Flux.src.Flux.Renderer
 		{
 			RenderCommand.Init();
 		}
-		public static void BeginScene(Camera camera)
+		public static void BeginScene(FreeSpaceCamera camera)
 		{
 			sceneData.ViewProjectionMatrix = camera.GetViewProjectMatrix();
 		}
@@ -25,14 +25,14 @@ namespace Flux.src.Flux.Renderer
 			vertexArray.Bind();
 			RenderCommand.DrawIndexed(vertexArray);
 		}
-		public static IShape CreateCube()
-		{
-			var factory = new ShapeFactory(ShapeFactory.FactoryType.Cube);
-			return factory.Create();
-		}
 		public static IShape CreateQuad()
 		{
 			var factory = new ShapeFactory(ShapeFactory.FactoryType.Quad);
+			return factory.Create();
+		}
+		public static IShape CreateCube()
+		{
+			var factory = new ShapeFactory(ShapeFactory.FactoryType.Cube);
 			return factory.Create();
 		}
 		public static IShape CreatePyramid()

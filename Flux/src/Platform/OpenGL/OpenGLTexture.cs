@@ -49,6 +49,8 @@ namespace Flux.src.Platform.OpenGL
 			GL.TextureParameterI(TextureHandle, TextureParameterName.TextureWrapS, ref texParams[2]);
 			GL.TextureParameterI(TextureHandle, TextureParameterName.TextureWrapT, ref texParams[2]);
 			GL.GenerateTextureMipmap(TextureHandle);
+			
+			Console.WriteLine($"\nTexture2D loaded successfully.\nID: ({TextureHandle})");
 		}
 		public override void Bind(int unit)
 		{

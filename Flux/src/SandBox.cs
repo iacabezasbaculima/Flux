@@ -26,7 +26,7 @@ namespace Flux.src
 		private readonly Vector3 _lightPos = new Vector3(2f, 0.0f, 0.0f);
 
 		#region CAMERA 
-		FL.Camera camera;
+		FL.FreeSpaceCamera camera;
 		bool firstMove = true;
 		Vector2 lastPos;
 		const float cameraSpeed = 3.5f;
@@ -49,7 +49,7 @@ namespace Flux.src
 			FL.RenderCommand.Clear();
 
 			// Camera
-			camera = new FL.Camera(Vector3.UnitZ * 10, Width / (float)Height);
+			camera = new FL.FreeSpaceCamera(Vector3.UnitZ * 10, Width / (float)Height);
 
 			// Load shaders
 			lightShader = FL.Shader.Create("Light", "light.vert", "light.frag");
@@ -137,8 +137,8 @@ namespace Flux.src
 				lightShader.Bind();
 
 				lightShader.SetMatrix4("model", Matrix4.Identity);
-				lightShader.SetMatrix4("view", camera.GetViewMatrix());
-				lightShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+				lightShader.SetMatrix4("view", camera.ViewMatrix);
+				lightShader.SetMatrix4("projection", camera.ProjectionMatrix);
 				lightShader.SetVector3("viewPos", camera.Position);
 
 				// Here we set the material values of the cube, the material struct is just a container so to access
@@ -169,8 +169,8 @@ namespace Flux.src
 				// Draw lamp
 				lampShader.Bind();
 				lampShader.SetMatrix4("model", MathUtility.CreateTransformationMatrix(_lightPos, new Vector3(.2f)));
-				lampShader.SetMatrix4("view", camera.GetViewMatrix());
-				lampShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+				lampShader.SetMatrix4("view", camera.ViewMatrix);
+				lampShader.SetMatrix4("projection", camera.ProjectionMatrix);
 
 				cube.Draw();
 
@@ -198,20 +198,17 @@ namespace Flux.src
 			base.OnMouseMove(e);
 			if (Focused) // check to see if the window is focused
 			{
-				//Mouse.SetPosition(X + Width / 2f, Y + Height / 2f);
+				Mouse.SetPosition(X + Width / 2f, Y + Height / 2f);
 			}
 		}
 		protected override void OnMouseWheel(MouseWheelEventArgs e)
 		{
 			camera.Fov -= e.DeltaPrecise;
-			base.OnMouseWheel(e);
 		}
 		protected override void OnKeyDown(KeyboardKeyEventArgs e)
 		{
-			base.OnKeyDown(e);
 			if (e.Key == Key.Escape)
 				Exit();
-				
 		}
 	}
 }
