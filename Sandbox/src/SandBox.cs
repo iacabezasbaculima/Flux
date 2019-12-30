@@ -4,11 +4,10 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using Flux.src.Flux.Core;
 using Flux.src.Flux.Utility;
 using FL = Flux.src.Flux.Renderer;
 
-namespace Flux.src
+namespace Sandbox.src
 {
 	public class SandBox : GameWindow
 	{

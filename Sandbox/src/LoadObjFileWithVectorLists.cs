@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using Flux.src.Flux.Renderer;
 
-namespace Flux.src
+namespace Sandbox.src
 {
 	public class LoadObjFileWithVectorLists : GameWindow
 	{
 		FreeSpaceCameraController camController;
 		Shader flatShader;
-		IShape cube;
 
 		Tuple<float[], float[], uint[]> ModelData;
 		Tuple<Vector3[], Vector2[], uint[]> TestData;
@@ -26,7 +21,6 @@ namespace Flux.src
 		{
 			camController = new FreeSpaceCameraController(Vector3.UnitZ * 10, Width / (float)Height);
 			flatShader = Shader.Create("Texture ", "texture.vert", "texture.frag");
-			cube = Renderer.CreateCube();
 
 			ModelData = ObjLoader.LoadFromFile("mycube.obj");
 			TestData = ObjLoader.Load("mycube.obj");
